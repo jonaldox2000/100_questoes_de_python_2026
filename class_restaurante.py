@@ -1,18 +1,33 @@
+from class_avaliacao import avalicao
+
 class Restaurante:
     restaurantes = []
     def __init__(self, nome, categoria):
-        self.nome = nome
-        self.categoria = categoria
-        self.cardapio = []
-        self.avaliacoes = []
+        self._nome = nome.title()
+        self._categoria = categoria
+        self._cardapio = []
+        self._avaliacoes = []
         Restaurante.restaurantes.append(self)
     def __str__(self):
-        return f'{self.nome} | {self.categoria}'
+        return f'{self._nome} | {self._categoria}'
 
     def listar_restaurantes(cls):
         print(f"{'Nome do Restaurante'.ljust(25)}| {'Categoria'.ljust(25)} | {'Avaliações'.ljust(25)}")
         for restaurante in cls.restaurantes:
-            print(f'{restaurante.nome.ljust(25)} | {restaurante.categoria.ljust(25)} | {restaurante.avaliacoes}')
+            print(f'{restaurante._nome.ljust(25)} | {restaurante._categoria.ljust(25)} | {restaurante._avaliacoes}')
+
+    def receber_avaliacao(self, nome, nota):
+        if 0 < nota <= 5:
+            avaliacao = Avaliacao(nome,nota)
+            self._avaliacoes.append(avaliacao)
+
+
+    
+    
+
+
+
+
 
 bistro_paris = Restaurante('Bistrô Paris', 'Francesa')
 sushi_zen = Restaurante('Sushi Zen', 'Japonesa')
