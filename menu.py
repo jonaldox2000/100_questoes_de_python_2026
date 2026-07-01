@@ -44,6 +44,7 @@ def cadastrar_restaurante():
         print("Cadastrado com sucesso!")
                   
                   
+
 def listar_restaurantes():
     print("\n=== LISTA ===")
     if not restaurantes:
@@ -52,5 +53,55 @@ def listar_restaurantes():
         status = "Ativo" if r["ativo"] else "Inativo"
         print(f"{i}. {r['nome']} ({r['categoria']}) - [{status}]")
 
+def alternar_estado_restaurante():
+    listar_restaurantes()
+    try:
+        idx = int(input("\nDigite o número para alterar o status: ")) - 1
+        restaurantes[idx]["ativo"] = not restaurantes[idx]["ativo"]
+        print(f"Status de '{restaurantes[idx]['nome']}' alterado!")
+    except (ValueError, IndexError):
+        print("Opção inválida.")
+
+def adicionar_avaliacao():
+    listar_restaurantes()
+    try:
+        idx = int(input("\nNúmero do restaurante a avaliar: ")) - 1
+        nota = int(input("Nota (1 a 5): "))
+        if 1 <= nota <= 5:
+            comentario = input("Comentário: ")
+            restaurantes[idx]["avaliacoes"].append({"nota": nota, "comentario": comentario})
+            print("Avaliação adicionada!")
+    except (ValueError, IndexError):
+        print("Entrada inválida.")
+
+def adicionar_item_cardapio():
+    listar_restaurantes()
+    try:
+        idx = int(input("\nNúmero do restaurante para o cardápio: ")) - 1
+        item = input("Nome do item: ")
+        preco = float(input("Preço: R$ "))
+        restaurantes[idx]["cardapio"].append({"item": item, "preco": preco})
+        print("Item adicionado!")
+    except (ValueError, IndexError):
+        print("Entrada inválida.")
+
+def exibir_cardapio():
+    listar_restaurantes()
+    try:
+        idx = int(input("\nNúmero do restaurante para exibir: ")) - 1
+        r = restaurantes[idx]
+        print(f"\n=== {r['nome'].upper()} ===")
+        
+        # Média das notas
+        notas = [av["nota"] for av in r["avaliacoes"]]
+        media = sum(notas) / len(notas) if notas else 0
+        print(f"Média: {media:.1f} ⭐")
+        
+        # Itens do cardápio
+        print("CARDÁPIO:")
+        for item in r["cardapio"]:
+            print(f"- {item['item']}: R$ {item['preco']:.2f}")
+    except (ValueError, IndexError):
+        print("Opção inválida.")
 
     
